@@ -1,0 +1,36 @@
+// Import Web3.js library
+const Web3 = require('web3');
+
+// Create a new Web3 instance
+const web3 = new Web3('YOUR_ETHEREUM_NODE_URL');
+
+// Load the smart contract ABI (Application Binary Interface)
+const contractABI = [
+  // Define the ABI of your smart contract here
+];
+
+// Contract address
+const contractAddress = 'YOUR_CONTRACT_ADDRESS';
+
+// Create a contract instance
+const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+// Example function to interact with the contract
+async function borrowETH(amount, collateral) {
+  try {
+    // Send a transaction to the smart contract
+    const accounts = await web3.eth.getAccounts();
+    const result = await contract.methods.borrowETH(amount, collateral).send({
+      from: accounts[0],
+      value: web3.utils.toWei(amount, 'ether') // Convert amount to wei
+    });
+    console.log('Transaction hash:', result.transactionHash);
+    console.log('Borrow successful!');
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// Call the function
+borrowETH('1', '2'); // Borrow 1 ETH with 2 ETH collateral (example values)
+
